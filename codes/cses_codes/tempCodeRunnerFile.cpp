@@ -1,0 +1,2 @@
+
+        cout<<t<<d<<endl;
