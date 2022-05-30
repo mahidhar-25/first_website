@@ -221,6 +221,7 @@ section .title::after {
     transform: translateX(-50%);
 }
 
+
 /* skills css */
 .skills .title::after {
     content: "";
