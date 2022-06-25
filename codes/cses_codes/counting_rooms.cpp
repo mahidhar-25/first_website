@@ -12,36 +12,48 @@ const ll MOD = 1e9 + 7;
 const ll INF = 1e9;
 
 vector<bool> filled;
+ 
+    void dfs(int i , int j , vector<vector<char>>& grid , vector<vector<bool>>& visited ){
+        if(i<0 || j<0) return;
+        if(i>=grid.size() || j>=grid[0].size())return;
+        if(visited[i][j]==true && grid[i][j]=='.')return;
+        if(grid[i][j]!='.')return;
+        if(visited[i][j]==false && grid[i][j]=='.'){
+            visited[i][j]=true;
+        }
+         dfs(i-1 , j , grid , visited);
+         dfs(i+1 , j , grid , visited);
+         dfs(i , j-1 , grid , visited);
+         dfs(i , j+1 , grid , visited);
+        return;
+    }
+    
+    int numIslands(vector<vector<char>>& grid) {
+        int ans=0;
+        vector<vector<bool>>visited(grid.size() , vector<bool>(grid[0].size() , false));
+        for(int i=0;i<grid.size();i++){
+            for(int j=0;j<grid[0].size();j++){
+                if(grid[i][j]=='.' && visited[i][j]==false){
+                    dfs(i , j , grid , visited);
+                    ans++;
+                }
+            }
+        }
+        return(ans);
+    }
 
-void no_of_appartments_filled(vi desired_size , vi actual_size , ll n , ll m , ll k){
-    ll i,j,x,count=0,size = 0;
-    filled.resize(m,false);
-    for(i=0 , j= 0; i<n && j<m;){
-       if(desired_size[i]+k < actual_size[j]){
-         i++;
-       }else if(desired_size[i] - k > actual_size[j]){
-           j++;
-       }else{
-           count++;i++;j++;
-       }
-
-}
-  cout<<count;
-}
 
 void solve(){
-    ll n,m,k,i;
-    cin>>n>>m>>k;
-    vi desired_size(n),actual_size(m);
+    int n,m,i,j;
+    cin>>n>>m;
+    vector<vector<char>>grid(n , vector<char>(m));
     for(i=0;i<n;i++){
-        cin>>desired_size[i];
+        for(j=0;j<m;j++){
+            cin>>grid[i][j];
+        }
     }
-    sort(all(desired_size));
-    for(i=0;i<m;i++){
-        cin>>actual_size[i];
-    }
-    sort(all(actual_size));
-    no_of_appartments_filled(desired_size,actual_size,n,m,k);
+    
+    cout<<numIslands(grid);
 }
 
 int main() {
